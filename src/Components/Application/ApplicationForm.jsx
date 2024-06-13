@@ -28,8 +28,8 @@ const ApplicationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // console.log(`https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`);
+    //console.log(formData);
+    // //console.log(`https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`);
     try {
       const response = await axios.post(
         `https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`,
@@ -41,7 +41,7 @@ const ApplicationForm = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      //console.log(response.data);
 
       // Reset form after submission
       setFormData({

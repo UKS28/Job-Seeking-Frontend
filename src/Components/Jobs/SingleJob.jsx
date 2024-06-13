@@ -16,7 +16,7 @@ const SingleJob = () => {
         `https://job-seeking-backend-e4fu.onrender.com/api/v1/jobs/${jobId}`
       );
       setJob(data.job);
-      console.log(data.job);
+      //console.log(data.job);
     } catch (e) {
       console.log(e);
     }

@@ -20,7 +20,7 @@ const Login = () => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    console.log(email, password, role);
+    //console.log(email, password, role);
     try {
       const { data } = await axios.post(
         "https://job-seeking-backend-e4fu.onrender.com/api/v1/users/login",
@@ -32,7 +32,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(data);
+      //console.log(data);
       toast.success(data.message);
       setEmail("");
       setPassword("");
@@ -43,7 +43,7 @@ const Login = () => {
       toast.error(e.response.data.message);
     }
   };
-  console.log("isauthorized", isAuthorized);
+  //console.log("isauthorized", isAuthorized);
   if (isAuthorized) {
     return <Navigate to={"/"} />;
   }

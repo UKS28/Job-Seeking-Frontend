@@ -16,7 +16,7 @@ const MyApplication = () => {
       setApplications(data.applications);
     } catch (err) {
       toast.error(err.response.data.message);
-      console.log(err.response.data.message);
+      //console.log(err.response.data.message);
     }
   };
   useEffect(() => {
@@ -30,7 +30,7 @@ const MyApplication = () => {
       </div>
     );
   }
-  console.log(applications);
+  // //console.log(applications);
   return (
     <>
       <Header />

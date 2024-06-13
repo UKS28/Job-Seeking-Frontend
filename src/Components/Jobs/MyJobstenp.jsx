@@ -21,7 +21,7 @@ const MyJobstenp = () => {
         "https://job-seeking-backend-e4fu.onrender.com/api/v1/jobs/getmyjobs",
         { withCredentials: true }
       );
-      // console.log(response);
+       //console.log(response);
       setMyJobs(response.data.myJobs);
     } catch (e) {
       console.log(e);
