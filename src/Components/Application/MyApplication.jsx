@@ -13,7 +13,7 @@ const MyApplication = () => {
         "https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/applicant/getall",
         { withCredentials: true }
       );
-      setApplications(data.jobDetails);
+      setApplications(data.applications);
     } catch (err) {
       toast.error(err.response.data.message);
       console.log(err.response.data.message);
@@ -30,6 +30,7 @@ const MyApplication = () => {
       </div>
     );
   }
+  console.log(applications);
   return (
     <>
       <Header />
@@ -42,24 +43,28 @@ const MyApplication = () => {
             <Link
               key={index}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:-translate-y-1 hover:shadow-2xl transition duration-300 ease-in-out"
-              to={`/job/${application._id}`}
+              to={`/job/${application.jobId}`}
             >
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-2">
-                  {application.companyName}
+                  {application.jobDetails.companyName}
                 </h2>
-                <p className="text-gray-700 mb-1">Role: {application.role}</p>
+                <p className="text-gray-700 mb-1">Role: {application.jobDetails.role}</p>
                 <p className="text-gray-700 mb-1">
-                  Salary: ₹{application.fixedSalary} Lakhs per Annum
+                  Salary: ₹{application.jobDetails.fixedSalary} Lakhs per Annum
                 </p>
                 <p className="text-gray-700 mb-1">
-                  Skills: {application.skill}
+                  Skills: {application.jobDetails.skill}
                 </p>
                 <p className="text-gray-700 mb-1">
-                  Job Type: {application.jobType}
+                  Job Type: {application.jobDetails.jobType}
                 </p>
                 <p className="text-gray-700 mb-1">
-                  Location: {application.location}
+                  Location: {application.jobDetails.location}
+                </p>
+
+                <p className="text-gray-700 mb-1 font-semibold text-lg bg-yellow-100 px-4 py-2 rounded-md shadow-md">
+                  Status: {application.status}
                 </p>
               </div>
             </Link>

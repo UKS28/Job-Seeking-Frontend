@@ -4,8 +4,10 @@ import axios from "axios";
 import Shimmer from "../Utils/Shimmer";
 
 const Applications = () => {
-  const [applications, setApplications] = useState([]);
   const { jobId } = useParams();
+  const [applications, setApplications] = useState([]);
+  const [editingMode,setEditingMode]=useState(null);
+  const [status,setStatus]=useState("Pending");
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -22,6 +24,29 @@ const Applications = () => {
 
     fetchApplications();
   }, [jobId]);
+
+
+  const handleStatusChange = async (applicationId, status) => {
+    try {
+      const response = await axios.put(
+        `https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/employer/application/${applicationId}`,
+        { status },
+        { withCredentials: true }
+      );
+      // Update the application status in the state
+      setApplications(prevApplications =>
+        prevApplications.map(application =>
+          application._id === applicationId
+            ? { ...application, status: status }
+            : application
+        )
+      );
+      console.log(response.data.message);
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
 
   if (!applications || applications.length === 0) {
     return (
@@ -76,7 +101,37 @@ const Applications = () => {
             <p className="mb-2">
               Why You: <span className="font-normal">{application.whyYou}</span>
             </p>
+            <p className="mb-2">
+              Status: <span className="font-normal">{application.status}</span>
+            </p>
+            <div className="mt-4">
+              <label htmlFor={`status-${index}`} className="block mb-2 font-bold">Change Status:</label>
+              <select
+                disabled={editingMode !== application._id}
+                id={`status-${index}`}
+                className="border rounded p-2 w-full"
+                value={editingMode !== application._id ?application.status:status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="Pending">Pending</option>
+                <option value="Active">Active</option>
+                <option value="Short Listed">Short Listed</option>
+              </select>
+              <button
+                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                onClick={() => handleStatusChange(application._id, document.getElementById(`status-${index}`).value)}
+              >
+                Update Status
+              </button>
+              <button
+                className="mx-4 mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                onClick={() => setEditingMode(application._id)}
+              >
+                Edit Status
+              </button>
+            </div>
           </div>
+
         ))}
       </div>
     </div>
