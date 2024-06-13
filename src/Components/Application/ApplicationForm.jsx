@@ -1,21 +1,20 @@
-import  { useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ApplicationForm = () => {
-
-  const { jobId }=useParams();
+  const { jobId } = useParams();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    contact: '',
-    gender: '',
-    currentLocation: '',
-    yearOfGraduation: '',
-    experienceYear: '',
-    skillSet: '',
-    whyYou: '',
+    name: "",
+    email: "",
+    contact: "",
+    gender: "",
+    currentLocation: "",
+    yearOfGraduation: "",
+    experienceYear: "",
+    skillSet: "",
+    whyYou: "",
   });
 
   const handleChange = (e) => {
@@ -26,46 +25,14 @@ const ApplicationForm = () => {
     }));
   };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     console.log(formData);
-//     try {
-//       const response = await axios.post(`http://localhost:4000/api/v1/applications/post/${jobId}`, formData,{
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         withCredentials: true,
-//     });
-//       console.log(response.data);
-//       // Reset form after submission
-//       setFormData({
-//         name: '',
-//         email: '',
-//         contact: '',
-//         gender: '',
-//         currentLocation: '',
-//         yearOfGraduation: '',
-//         experienceYear: '',
-//         skillSet: '',
-//         whyYou: '',
-//       });
-//       toast.success(Response.data.message)
-//     } catch (error) {
-//       console.error('Error submitting form', error);
-//     }
-//   };
-// requesting_on:
-// 66688a1c1ea78e741b3b32e8
-// resquest send on:
-// 666889b01ea78e741b3b32e5
-// console.log(jobId);
-const handleSubmit = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    // console.log(`http://localhost:4000/api/v1/applications/post/${jobId}`);
+    // console.log(`https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`);
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/v1/applications/post/${jobId}`,
+        `https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`,
         formData,
         {
           headers: {
@@ -75,27 +42,26 @@ const handleSubmit = async (e) => {
         }
       );
       console.log(response.data);
-  
+
       // Reset form after submission
       setFormData({
-        name: '',
-        email: '',
-        contact: '',
-        gender: '',
-        currentLocation: '',
-        yearOfGraduation: '',
-        experienceYear: '',
-        skillSet: '',
-        whyYou: '',
+        name: "",
+        email: "",
+        contact: "",
+        gender: "",
+        currentLocation: "",
+        yearOfGraduation: "",
+        experienceYear: "",
+        skillSet: "",
+        whyYou: "",
       });
-  
+
       toast.success(response.data.message);
     } catch (error) {
-      console.error('Error submitting form', error);
+      console.error("Error submitting form", error);
       toast.error(error.response.data.message);
     }
   };
-  
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-8">
@@ -225,7 +191,10 @@ const handleSubmit = async (e) => {
           required
         />
       </div>
-      <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+      >
         Submit Application
       </button>
     </form>
