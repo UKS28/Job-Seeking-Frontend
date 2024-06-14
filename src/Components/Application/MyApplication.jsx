@@ -1,12 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Shimmer from "../Utils/Shimmer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../Layout/Header";
 import Footer from "../Layout/Footer";
+import { Context } from "../../main";
 const MyApplication = () => {
   const [applications, setApplications] = useState([]);
+  const {user}=useContext(Context);
+  const navigateto=useNavigate();
+
   const fetchApplication = async () => {
     try {
       const { data } = await axios.get(
@@ -19,7 +23,12 @@ const MyApplication = () => {
       //console.log(err.response.data.message);
     }
   };
+
   useEffect(() => {
+    if(user && user.role!=="Job Seeker")
+      {
+         navigateto('/');
+      }
     fetchApplication();
   }, []);
 

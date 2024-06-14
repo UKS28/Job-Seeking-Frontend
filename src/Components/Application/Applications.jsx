@@ -1,15 +1,26 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Shimmer from "../Utils/Shimmer";
+import { Context } from "../../main";
 
 const Applications = () => {
   const { jobId } = useParams();
+  const {user}=useContext(Context);
+  const navigateto=useNavigate();
+  
   const [applications, setApplications] = useState([]);
   const [editingMode,setEditingMode]=useState(null);
   const [status,setStatus]=useState("Pending");
-
+  const [fetched,setFetched]=useState(false);
   useEffect(() => {
+
+    const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+
+    if (isEmptyObject(user) || user.role === "Job Seeker") {
+         navigateto('/');
+      }
+    console.log(isEmptyObject(user));
     const fetchApplications = async () => {
       try {
         const response = await axios.get(
@@ -17,6 +28,7 @@ const Applications = () => {
           { withCredentials: true }
         );
         setApplications(response.data.applications);
+        setFetched(true);
       } catch (error) {
         console.error("Error fetching applications:", error);
       }
@@ -46,12 +58,12 @@ const Applications = () => {
       console.error('Error updating status:', error);
     }
   };
-
+ 
 
   if (!applications || applications.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <Shimmer />
+        {fetched ? <p>No applications found.</p> : <Shimmer />}
       </div>
     );
   }

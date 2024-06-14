@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Context } from "../../main";
 
 const ApplicationForm = () => {
   const { jobId } = useParams();
+  const {user}=useContext(Context);
+  const navigateto=useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,11 +28,16 @@ const ApplicationForm = () => {
     }));
   };
 
+  useEffect(()=>{
+    if(user && user.role!=="Job Seeker"){
+       navigateto('/');
+    }
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     //console.log(formData);
-    // //console.log(`https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`);
+    // //console.log(`http://localhost:4000/api/v1/applications/post/${jobId}`);
     try {
       const response = await axios.post(
         `https://job-seeking-backend-e4fu.onrender.com/api/v1/applications/post/${jobId}`,
