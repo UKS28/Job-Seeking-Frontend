@@ -13,7 +13,6 @@ const Register = () => {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const handleHidePassword = (ev) => {
     ev.preventDefault();
     setShowPassword(!showPassword);
@@ -22,7 +21,7 @@ const Register = () => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     try {
-      const data = axios.post(
+      const {data} =await axios.post(
         "https://job-seeking-backend-e4fu.onrender.com/api/v1/users/register",
         { name, email, password, role },
         {
@@ -32,6 +31,7 @@ const Register = () => {
           withCredentials: true,
         }
       );
+      // console.log(data);
       toast.success(data.message);
       setName("");
       setRole("");
@@ -40,6 +40,7 @@ const Register = () => {
       setUser(data.user);
       setIsAuthorized(true);
     } catch (error) {
+      // console.log(error);
       toast.error(error.response.data.message);
     }
   };
